@@ -1,57 +1,63 @@
-
 <!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<html lang="ja" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ヤマトB2 CSV変換ツール</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
-    <div class="container">
-        <header>
-            <h1>ヤマト運輸 B2用CSV変換ツール</h1>
-            <p>Yahoo Shoppingの注文CSV（または本ツールで出力したCSV）をアップロードして、B2クラウド用のデータを作成します。</p>
-        </header>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='output.css') }}"
+    />
+  </head>
+  <body>
+    <div id="elm-app"></div>
 
-        <main>
-            <div class="controls">
-                <div class="upload-section">
-                    <h2>1. ファイルをアップロード</h2>
-                    <form id="upload-form">
-                        <input type="file" id="file-input" name="file" accept=".csv" required>
-                        <button type="submit">読み込み</button>
-                    </form>
-                </div>
-                <div id="editor-controls" class="hidden">
-                    <h2>2. データを編集</h2>
-                    <div class="batch-edit">
-                        <label for="batch-ship-date">出荷予定日を一括変更:</label>
-                        <input type="date" id="batch-ship-date">
-                        <button id="batch-apply-btn">適用</button>
-                    </div>
-                     <div class="save-section">
-                        <h2>3. ファイルを保存</h2>
-                        <button id="save-btn">CSV形式でダウンロード</button>
-                    </div>
-                </div>
-            </div>
+    <script src="{{ url_for('static', filename='elm.js') }}"></script>
+    <script>
+      // Initialize Elm application
+      var app = Elm.Main.init({
+        node: document.getElementById('elm-app')
+      });
 
-            <div id="error-message" class="error hidden"></div>
-            <div id="loading" class="hidden">
-                <div class="spinner"></div>
-                <p>処理中...</p>
-            </div>
-            
-            <div class="table-container">
-                <table id="data-table" class="hidden">
-                    <thead id="table-head"></thead>
-                    <tbody id="table-body"></tbody>
-                </table>
-            </div>
-        </main>
-    </div>
+      // Handle CSV download port
+      app.ports.downloadCsv.subscribe(function(data) {
+        fetch('/save', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('サーバーエラー');
+          }
 
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
-</body>
+          // Extract filename from Content-Disposition header or use default
+          const contentDisposition = response.headers.get('Content-Disposition');
+          let filename = 'yamato_output.csv';
+          if (contentDisposition) {
+            const match = contentDisposition.match(/filename="?(.+)"?/);
+            if (match && match.length > 1) {
+              filename = match[1];
+            }
+          }
+
+          return response.blob().then(blob => ({ blob, filename }));
+        })
+        .then(({ blob, filename }) => {
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = filename;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          window.URL.revokeObjectURL(url);
+        })
+        .catch(error => {
+          console.error('保存エラー:', error);
+          alert('保存エラー: ' + error.message);
+        });
+      });
+    </script>
+  </body>
 </html>

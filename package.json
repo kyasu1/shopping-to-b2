@@ -1,0 +1,31 @@
+{
+  "name": "shopping-to-b2",
+  "version": "1.0.0",
+  "description": "Yahoo!ショッピングの注文CSV（`order.csv`）を、ヤマト運輸のB2クラウドシステムに取り込み可能なCSV形式に変換するためのWebアプリケーションです。",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kyasu1/shopping-to-b2.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/kyasu1/shopping-to-b2/issues"
+  },
+  "homepage": "https://github.com/kyasu1/shopping-to-b2#readme",
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.1.18",
+    "daisyui": "^5.5.14",
+    "tailwindcss": "^4.1.18",
+    "vite": "^7.3.1",
+    "vite-plugin-elm": "^3.0.1"
+  }
+}

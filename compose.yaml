@@ -10,11 +10,11 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=traefik_net"
-      - "traefik.http.routers.api.tls=true"
-      - "traefik.http.routers.api.service=api"
-      - "traefik.http.routers.api.rule=Host(`shopping-to-b2.tera.officeiko.co.jp`)"
-      - "traefik.http.routers.api.tls.certresolver=tsresolver"
-      - "traefik.http.services.api.loadbalancer.server.port=5001"
+      - "traefik.http.routers.shopping-to-b2.tls=true"
+      - "traefik.http.routers.shopping-to-b2.service=shopping-to-b2"
+      - "traefik.http.routers.shopping-to-b2.rule=Host(`shopping-to-b2.tera.officeiko.co.jp`)"
+      - "traefik.http.routers.shopping-to-b2.tls.certresolver=tsresolver"
+      - "traefik.http.services.shopping-to-b2.loadbalancer.server.port=5001"
     networks:
       - traefik
 

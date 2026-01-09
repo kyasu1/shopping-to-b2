@@ -29,6 +29,18 @@ yamato_output_*.csv
 # In a real app, 'SECRET_KEY' should be in an environment variable or .env file, and .env should be ignored.
 # For this example, it's hardcoded, but keeping this comment for best practice.
 
+# Node.js
+node_modules/
+package-lock.json
+
+# Elm
+elm-stuff/
+static/elm.js
+
+# Vite
+dist/
+.vite/
+
 # Docker
 # .dockerignore should handle what goes into the build context,
 # but these are good to ignore in the main repo too.
