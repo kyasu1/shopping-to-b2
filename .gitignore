@@ -31,7 +31,6 @@ yamato_output_*.csv
 
 # Node.js
 node_modules/
-package-lock.json
 
 # Elm
 elm-stuff/
