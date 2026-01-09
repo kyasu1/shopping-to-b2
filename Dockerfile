@@ -1,6 +1,9 @@
 # Stage 1: Build frontend with Node.js
 FROM node:20-slim AS frontend-builder
 
+# Install CA certificates for HTTPS
+RUN apt-get update && apt-get install -y ca-certificates && rm -rf /var/lib/apt/lists/*
+
 WORKDIR /build
 
 # Copy package files and elm-tooling config
