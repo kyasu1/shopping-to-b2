@@ -5,15 +5,8 @@ services:
       - "5001:5001"
     volumes:
       - .:/app
-    environment:
-      - SECRET_KEY=
-      - SENDER_PHONE=
-      - SENDER_ZIP=
-      - SENDER_ADDRESS=
-      - SENDER_NAME=
-      - BILLING_CUSTOMER_CODE=
-      - FREIGHT_MANAGEMENT_NUMBER=
-      - DEFAULT_ITEM_NAME=
+    env_file:
+      - .env
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=traefik_net"

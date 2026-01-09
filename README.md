@@ -78,10 +78,7 @@ Yahoo!ショッピングの注文CSV（`order.csv`）を、ヤマト運輸のB2�
     ```
     （初回はビルドのため少し時間がかかります。2回目以降は `docker-compose up` だけでOKです。）
 
-    `compose.yaml`で`env_file`がサポートされていない古いバージョンのDocker Composeをお使いの場合は、以下のようにして環境変数を渡すことができます。
-    ```bash
-    docker-compose run --rm --service-ports --env-file .env web
-    ```
+
 
 3.  Webブラウザで以下のURLにアクセスします。
     [http://127.0.0.1:5001](http://127.0.0.1:5001)
