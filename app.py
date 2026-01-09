@@ -7,19 +7,19 @@ import uuid
 from flask import Flask, request, jsonify, render_template, session, send_file
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'a-static-secret-key-for-development'
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 app.config['UPLOAD_FOLDER'] = 'uploads'
 
 # --- 固定情報 ---
 SENDER_INFO = {
-    "phone": "048-987-1020",
-    "zip": "3430851",
-    "address": "埼玉県越谷市七左町1-299-1",
-    "name": "株式会社オフイスイコー",
+    "phone": os.environ.get("SENDER_PHONE"),
+    "zip": os.environ.get("SENDER_ZIP"),
+    "address": os.environ.get("SENDER_ADDRESS"),
+    "name": os.environ.get("SENDER_NAME"),
 }
-BILLING_CUSTOMER_CODE = "048987102002"
-FREIGHT_MANAGEMENT_NUMBER = "01"
-DEFAULT_ITEM_NAME = "商品"
+BILLING_CUSTOMER_CODE = os.environ.get("BILLING_CUSTOMER_CODE")
+FREIGHT_MANAGEMENT_NUMBER = os.environ.get("FREIGHT_MANAGEMENT_NUMBER")
+DEFAULT_ITEM_NAME = os.environ.get("DEFAULT_ITEM_NAME")
 
 # ドロップダウンの選択肢
 DROPDOWN_OPTIONS = {
