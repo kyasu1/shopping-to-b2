@@ -1,0 +1,46 @@
+# Node modules
+node_modules/
+npm-debug.log*
+
+# Build outputs
+dist/
+static/elm.js
+static/output.css
+
+# Elm
+elm-stuff/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+
+# Git
+.git/
+.gitignore
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Claude Code
+.claude/
+
+# Env files
+.env.local
+.env.*.local
+
+# Uploads (runtime directory)
+uploads/
+
+# Documentation
+README.md
+*.md
+
+# Testing
+.pytest_cache/

@@ -4,9 +4,11 @@ import datetime
 import io
 import os
 import uuid
-from flask import Flask, request, jsonify, render_template, session, send_file
+from flask import Flask, request, jsonify, render_template, session, send_file, send_from_directory
 
-app = Flask(__name__)
+app = Flask(__name__,
+            static_folder='dist/assets',
+            static_url_path='/assets')
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 app.config['UPLOAD_FOLDER'] = 'uploads'
 
@@ -152,11 +154,6 @@ def process_uploaded_csv(filepath):
     raise ValueError(f"サポートされているエンコーディングでファイルを読み込めませんでした: {last_error}")
 
 
-@app.route('/', methods=['GET'])
-def index():
-    """メインページを表示"""
-    return render_template('index.html')
-
 @app.route('/upload', methods=['POST'])
 def upload_file():
     """CSVファイルをアップロードして処理し、JSONで返す"""
@@ -169,9 +166,9 @@ def upload_file():
         try:
             filepath = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
             file.save(filepath)
-            
+
             data, headers = process_uploaded_csv(filepath)
-            
+
             return jsonify({"data": data, "headers": headers})
         except Exception as e:
             return jsonify({"error": str(e)}), 500
@@ -211,6 +208,16 @@ def save_file():
         download_name=filename,
         mimetype='text/csv'
     )
+
+@app.route('/', methods=['GET'])
+def index():
+    """メインページを表示"""
+    return send_from_directory('dist', 'index.html')
+
+@app.route('/<path:filename>')
+def serve_static(filename):
+    """dist内の静的ファイルを配信"""
+    return send_from_directory('dist', filename)
 
 if __name__ == '__main__':
     if not os.path.exists(app.config['UPLOAD_FOLDER']):
