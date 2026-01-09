@@ -6,8 +6,8 @@ WORKDIR /build
 # Copy package files
 COPY package*.json ./
 
-# Install dependencies
-RUN npm ci
+# Install Elm compiler and npm dependencies
+RUN npm install -g elm@latest-0.19.1 && npm ci
 
 # Copy source files
 COPY index.html ./
