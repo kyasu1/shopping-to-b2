@@ -3,11 +3,11 @@ FROM node:20-slim AS frontend-builder
 
 WORKDIR /build
 
-# Copy package files
-COPY package*.json ./
+# Copy package files and elm-tooling config
+COPY package*.json elm-tooling.json ./
 
-# Install Elm compiler and npm dependencies
-RUN npm install -g elm@latest-0.19.1 && npm ci
+# Install npm dependencies (postinstall will run elm-tooling install)
+RUN npm ci
 
 # Copy source files
 COPY index.html ./

@@ -36,6 +36,7 @@ package-lock.json
 # Elm
 elm-stuff/
 static/elm.js
+node_modules/.bin/elm*
 
 # Vite
 dist/
