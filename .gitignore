@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+.pytest_cache/
+.coverage
+.mypy_cache/
+.tox/
+
+# Editor/IDE
+.idea/
+.vscode/
+*.swp
+*.bak
+*.swo
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Application-specific
+uploads/
+yamato_output_*.csv
+# In a real app, 'SECRET_KEY' should be in an environment variable or .env file, and .env should be ignored.
+# For this example, it's hardcoded, but keeping this comment for best practice.
+
+# Docker
+# .dockerignore should handle what goes into the build context,
+# but these are good to ignore in the main repo too.
+*.dockerignore
+*.log

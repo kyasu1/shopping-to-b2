@@ -1,0 +1,57 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ヤマトB2 CSV変換ツール</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>ヤマト運輸 B2用CSV変換ツール</h1>
+            <p>Yahoo Shoppingの注文CSV（または本ツールで出力したCSV）をアップロードして、B2クラウド用のデータを作成します。</p>
+        </header>
+
+        <main>
+            <div class="controls">
+                <div class="upload-section">
+                    <h2>1. ファイルをアップロード</h2>
+                    <form id="upload-form">
+                        <input type="file" id="file-input" name="file" accept=".csv" required>
+                        <button type="submit">読み込み</button>
+                    </form>
+                </div>
+                <div id="editor-controls" class="hidden">
+                    <h2>2. データを編集</h2>
+                    <div class="batch-edit">
+                        <label for="batch-ship-date">出荷予定日を一括変更:</label>
+                        <input type="date" id="batch-ship-date">
+                        <button id="batch-apply-btn">適用</button>
+                    </div>
+                     <div class="save-section">
+                        <h2>3. ファイルを保存</h2>
+                        <button id="save-btn">CSV形式でダウンロード</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="error-message" class="error hidden"></div>
+            <div id="loading" class="hidden">
+                <div class="spinner"></div>
+                <p>処理中...</p>
+            </div>
+            
+            <div class="table-container">
+                <table id="data-table" class="hidden">
+                    <thead id="table-head"></thead>
+                    <tbody id="table-body"></tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
