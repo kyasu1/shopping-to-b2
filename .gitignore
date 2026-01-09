@@ -46,3 +46,8 @@ dist/
 # but these are good to ignore in the main repo too.
 *.dockerignore
 *.log
+
+# Environment variables
+.env
+.env.local
+.env.*.local
