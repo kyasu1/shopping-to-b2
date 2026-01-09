@@ -392,7 +392,7 @@ viewTableHeader headers =
 
 viewHeaderCell : ColumnDef -> Html Msg
 viewHeaderCell col =
-    div [ class "text-sm text-center font-semibold py-1 border-b border-collapse border-gray-400" ]
+    div [ class "text-xs text-center font-semibold py-1 border-b border-collapse border-gray-400" ]
         [ text col.label ]
 
 
@@ -429,7 +429,7 @@ viewDataCell options rowId row col =
         viewEditableInput options rowId col.field value
 
     else
-        div [ class "text-sm" ] [ text value ]
+        div [ class "text-xs py-2 text-center bg-gray-500 text-white" ] [ text value ]
 
 
 isEditableField : String -> Bool
@@ -472,15 +472,22 @@ viewEditableInput options rowId fieldName value =
                     let
                         datalistId =
                             fieldName ++ "-" ++ rowId
+
+                        attrs =
+                            if String.isEmpty value then
+                                [ type_ "text", attribute "list" datalistId ]
+
+                            else
+                                [ type_ "search", on "search" (Decode.succeed (UpdateField rowId fieldName "")) ]
                     in
                     div []
                         [ input
-                            [ type_ "text"
-                            , class "input input-bordered input-sm w-full"
-                            , Html.Attributes.value value
-                            , onInput (UpdateField rowId fieldName)
-                            , attribute "list" datalistId
-                            ]
+                            (attrs
+                                ++ [ class "input input-bordered input-sm w-full"
+                                   , Html.Attributes.value value
+                                   , onInput (UpdateField rowId fieldName)
+                                   ]
+                            )
                             []
                         , datalist [ id datalistId ]
                             (List.map
