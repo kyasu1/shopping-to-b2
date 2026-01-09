@@ -22,8 +22,7 @@ export default defineConfig({
     port: 3000,
     proxy: {
       '/upload': 'http://localhost:5001',
-      '/save': 'http://localhost:5001',
-      '/options': 'http://localhost:5001'
+      '/save': 'http://localhost:5001'
     }
   }
 })

@@ -157,11 +157,6 @@ def index():
     """メインページを表示"""
     return render_template('index.html')
 
-@app.route('/options', methods=['GET'])
-def get_options():
-    """ドロップダウンの選択肢をJSONで返す"""
-    return jsonify(DROPDOWN_OPTIONS)
-
 @app.route('/upload', methods=['POST'])
 def upload_file():
     """CSVファイルをアップロードして処理し、JSONで返す"""

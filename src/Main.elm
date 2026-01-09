@@ -69,17 +69,58 @@ type alias ColumnDef =
     }
 
 
+staticDropdownOptions : DropdownOptions
+staticDropdownOptions =
+    Dict.fromList
+        [ ( "送り状種類"
+          , [ { value = "0", text = "発払い" }
+            , { value = "8", text = "コンパクト" }
+            , { value = "A", text = "ネコポス" }
+            ]
+          )
+        , ( "配達時間帯"
+          , [ { value = "", text = "指定なし" }
+            , { value = "0812", text = "午前中" }
+            , { value = "1416", text = "14～16時" }
+            , { value = "1618", text = "16～18時" }
+            , { value = "1820", text = "18～20時" }
+            , { value = "1921", text = "19～21時" }
+            ]
+          )
+        , ( "荷扱い１"
+          , [ { value = "", text = "（空白）" }
+            , { value = "精密機器", text = "精密機器" }
+            , { value = "ワレ物注意", text = "ワレ物注意" }
+            , { value = "下積現金", text = "下積現金" }
+            , { value = "天地無用", text = "天地無用" }
+            , { value = "ナマモノ", text = "ナマモノ" }
+            , { value = "水濡厳禁", text = "水濡厳禁" }
+            ]
+          )
+        , ( "荷扱い２"
+          , [ { value = "", text = "（空白）" }
+            , { value = "精密機器", text = "精密機器" }
+            , { value = "ワレ物注意", text = "ワレ物注意" }
+            , { value = "下積現金", text = "下積現金" }
+            , { value = "天地無用", text = "天地無用" }
+            , { value = "ナマモノ", text = "ナマモノ" }
+            , { value = "水濡厳禁", text = "水濡厳禁" }
+            ]
+          )
+        ]
+
+
 init : () -> ( Model, Cmd Msg )
 init _ =
     ( { allHeaders = []
       , data = []
-      , dropdownOptions = Dict.empty
+      , dropdownOptions = staticDropdownOptions
       , loading = False
       , errorMessage = Nothing
       , showTable = False
       , batchShipDate = ""
       }
-    , fetchOptions
+    , Cmd.none
     )
 
 
@@ -91,7 +132,6 @@ type Msg
     = FileRequested
     | FileSelected File
     | FileUploaded (Result Http.Error UploadResponse)
-    | OptionsFetched (Result Http.Error DropdownOptions)
     | UpdateField String String String -- rowId, fieldName, value
     | BatchShipDateChanged String
     | ApplyBatchShipDate
@@ -135,14 +175,6 @@ update msg model =
                 | loading = False
                 , errorMessage = Just (httpErrorToString error)
               }
-            , Cmd.none
-            )
-
-        OptionsFetched (Ok options) ->
-            ( { model | dropdownOptions = options }, Cmd.none )
-
-        OptionsFetched (Err error) ->
-            ( { model | errorMessage = Just ("選択肢の取得に失敗しました: " ++ httpErrorToString error) }
             , Cmd.none
             )
 
@@ -509,14 +541,6 @@ columnLayout =
 -- HTTP
 
 
-fetchOptions : Cmd Msg
-fetchOptions =
-    Http.get
-        { url = "/options"
-        , expect = Http.expectJson OptionsFetched dropdownOptionsDecoder
-        }
-
-
 uploadFile : File -> Cmd Msg
 uploadFile file =
     Http.post
@@ -528,18 +552,6 @@ uploadFile file =
 
 
 -- DECODERS
-
-
-dropdownOptionsDecoder : Decoder DropdownOptions
-dropdownOptionsDecoder =
-    Decode.dict (Decode.list optionItemDecoder)
-
-
-optionItemDecoder : Decoder OptionItem
-optionItemDecoder =
-    Decode.map2 OptionItem
-        (Decode.field "value" Decode.string)
-        (Decode.field "text" Decode.string)
 
 
 uploadResponseDecoder : Decoder UploadResponse
