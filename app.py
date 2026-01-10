@@ -23,40 +23,6 @@ BILLING_CUSTOMER_CODE = os.environ.get("BILLING_CUSTOMER_CODE")
 FREIGHT_MANAGEMENT_NUMBER = os.environ.get("FREIGHT_MANAGEMENT_NUMBER")
 DEFAULT_ITEM_NAME = os.environ.get("DEFAULT_ITEM_NAME")
 
-# ドロップダウンの選択肢
-DROPDOWN_OPTIONS = {
-    "送り状種類": [
-        {"value": "0", "text": "0 : 発払い"},
-        {"value": "8", "text": "8 : 宅急便コンパクト"},
-        {"value": "A", "text": "A : ネコポス"},
-    ],
-    "配達時間帯": [
-        {"value": "", "text": "指定なし"},
-        {"value": "0812", "text": "0812 : 午前中"},
-        {"value": "1416", "text": "1416 : 14～16時"},
-        {"value": "1618", "text": "1618 : 16～18時"},
-        {"value": "1820", "text": "1820 : 18～20時"},
-        {"value": "1921", "text": "1921 : 19～21時"},
-    ],
-    "荷扱い１": [
-        {"value": "", "text": "（空白）"},
-        {"value": "精密機器", "text": "精密機器"},
-        {"value": "ワレ物注意", "text": "ワレ物注意"},
-        {"value": "下積現金", "text": "下積現金"},
-        {"value": "天地無用", "text": "天地無用"},
-        {"value": "ナマモノ", "text": "ナマモノ"},
-        {"value": "水濡厳禁", "text": "水濡厳禁"},
-    ],
-    "荷扱い２": [
-        {"value": "", "text": "（空白）"},
-        {"value": "精密機器", "text": "精密機器"},
-        {"value": "ワレ物注意", "text": "ワレ物注意"},
-        {"value": "下積現金", "text": "下積現金"},
-        {"value": "天地無用", "text": "天地無用"},
-        {"value": "ナマモノ", "text": "ナマモノ"},
-        {"value": "水濡厳禁", "text": "水濡厳禁"},
-    ]
-}
 # ---
 
 def get_delivery_time_code(time_str):
