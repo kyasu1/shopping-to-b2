@@ -85,6 +85,7 @@ def process_csv_stream(infile, headers):
                 output_row["品名１"] = DEFAULT_ITEM_NAME
                 output_row["請求先顧客コード"] = BILLING_CUSTOMER_CODE
                 output_row["運賃管理番号"] = FREIGHT_MANAGEMENT_NUMBER
+                output_row["個数口表示フラグ"] = "2"
 
             output_row['__id'] = str(uuid.uuid4())
             processed_data.append(output_row)
@@ -158,6 +159,9 @@ def save_file():
     writer = csv.DictWriter(output, fieldnames=headers, extrasaction='ignore')
     writer.writeheader()
     for row in edited_data:
+        # If delivery date is empty, set to "最短日"
+        if 'お届け予定日' in row and not row['お届け予定日'].strip():
+            row['お届け予定日'] = '最短日'
         writer.writerow(row)
 
     # UTF-8 BOM付きでエンコード

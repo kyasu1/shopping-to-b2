@@ -1,4 +1,4 @@
-port module Main exposing (main)
+port module Main exposing (main, uploadFile)
 
 import Browser
 import Dict exposing (Dict)
