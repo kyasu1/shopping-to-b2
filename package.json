@@ -8,7 +8,9 @@
     "postinstall": "elm-tooling install",
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "docker:build": "docker build -t shopping-to-b2:dev .",
+    "docker:build-push": "./build-and-push.sh"
   },
   "repository": {
     "type": "git",

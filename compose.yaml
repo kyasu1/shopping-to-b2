@@ -1,6 +1,7 @@
+### レジストリに登録されるイメージはx86のみですので、Macでは動作しません。
 services:
   web:
-    build: .
+    image: ${REGISTRY}:latest
     ports:
       - "5001:5001"
     env_file:
@@ -10,7 +11,7 @@ services:
       - "traefik.docker.network=traefik_net"
       - "traefik.http.routers.shopping-to-b2.tls=true"
       - "traefik.http.routers.shopping-to-b2.service=shopping-to-b2"
-      - "traefik.http.routers.shopping-to-b2.rule=Host(`shopping-to-b2.${TS_HOST}.officeiko.co.jp`)"
+      - "traefik.http.routers.shopping-to-b2.rule=Host(`${TS_HOST}`)"
       - "traefik.http.routers.shopping-to-b2.tls.certresolver=tsresolver"
       - "traefik.http.services.shopping-to-b2.loadbalancer.server.port=5001"
     networks:

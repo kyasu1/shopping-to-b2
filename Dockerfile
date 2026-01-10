@@ -1,5 +1,5 @@
 # Stage 1: Build frontend with Node.js
-FROM node:20-slim AS frontend-builder
+FROM --platform=linux/amd64 node:20-slim AS frontend-builder
 
 # Install CA certificates for HTTPS
 RUN apt-get update && apt-get install -y ca-certificates && rm -rf /var/lib/apt/lists/*
@@ -24,7 +24,7 @@ COPY static/ ./static/
 RUN npm run build
 
 # Stage 2: Python runtime
-FROM python:3.11-slim
+FROM --platform=linux/amd64 python:3.11-slim
 
 # Set the working directory in the container
 WORKDIR /app

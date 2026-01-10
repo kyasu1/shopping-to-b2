@@ -72,15 +72,55 @@ Yahoo!ショッピングの注文CSV（`order.csv`）を、ヤマト運輸のB2�
 
 **手順:**
 1.  `.env` ファイルを準備します（[設定](#設定)セクションを参照）。
-2.  ターミナルで以下のコマンドを実行して、コンテナをビルドし、起動します。
+2.  レジストリからイメージを取得し、コンテナを起動します。
     ```bash
-    docker-compose up --build
+    docker-compose pull
+    docker-compose up -d
     ```
-    （初回はビルドのため少し時間がかかります。2回目以降は `docker-compose up` だけでOKです。）
-
-
 
 3.  Webブラウザで以下のURLにアクセスします。
     [http://127.0.0.1:5001](http://127.0.0.1:5001)
 
-4.  アプリケーションを停止するには、ターミナルで `Ctrl + C` を押します。
+4.  アプリケーションを停止するには、以下のコマンドを実行します。
+    ```bash
+    docker-compose down
+    ```
+
+---
+
+## 開発者向け情報
+
+### Dockerイメージのビルドとプッシュ
+
+このプロジェクトは、プライベートDockerレジストリ (`registry.tera.officeiko.co.jp`) を使用しています。
+
+**前提条件:**
+- Node.js（package.jsonのバージョン情報を読み取るため）
+- Dockerレジストリへのログイン: `docker login registry.tera.officeiko.co.jp`
+
+**イメージのビルドとプッシュ:**
+```bash
+npm run docker:build-push
+```
+
+このコマンドは以下を実行します：
+1. `package.json` からバージョン番号を読み取り
+2. x86（linux/amd64）プラットフォーム向けにDockerイメージをビルド
+3. `registry.tera.officeiko.co.jp/shopping-to-b2:<version>` と `latest` タグでプッシュ
+
+**ローカルでのビルド（開発用）:**
+```bash
+npm run docker:build
+```
+
+**バージョン更新の手順:**
+1. `package.json` の `version` フィールドを更新（例: "1.0.0" → "1.0.1"）
+2. `npm run docker:build-push` を実行
+3. デプロイ環境で `docker-compose pull && docker-compose up -d` を実行
+
+### アーキテクチャ
+
+- **フロントエンド**: Elm + Vite + Tailwind CSS + DaisyUI
+- **バックエンド**: Python (Flask)
+- **ビルド**: マルチステージDockerビルド（Node.js → Python）
+- **デプロイ**: Docker Compose + Traefik（リバースプロキシ）
